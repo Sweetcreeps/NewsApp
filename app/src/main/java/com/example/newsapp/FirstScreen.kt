@@ -3,6 +3,7 @@ package com.example.newsapp
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -108,12 +109,16 @@ fun NewsListPage(category: String) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp)
         )
-        LazyColumn {
-            items(4) { _ ->
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 8.dp) // Adds padding around the list
+        ) {
+            items(10) { _ ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 8.dp) // Space between each row
+                        .border(2.dp, Color.Black)
+                        .padding(8.dp), // Padding inside the border
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
@@ -135,6 +140,7 @@ fun NewsListPage(category: String) {
         }
     }
 }
+
 
 @Composable
 fun PlaceholderPage(category: String) {
