@@ -7,7 +7,9 @@ plugins {
 android {
     namespace = "com.example.newsapp"
     compileSdk = 35
-
+    buildFeatures {
+        buildConfig=true
+    }
     defaultConfig {
         applicationId = "com.example.newsapp"
         minSdk = 24
@@ -16,6 +18,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Inject the API key from local.properties into BuildConfig
+        buildConfigField("String", "NEWS_API_KEY", "\"${project.findProperty("NEWS_API_KEY") ?: ""}\"")
     }
 
     buildTypes {
@@ -41,10 +45,14 @@ android {
 
 dependencies {
     val nav_version = "2.7.4"
-
+    implementation(platform("androidx.compose:compose-bom:<latest-version>"))
+    implementation("androidx.compose.material3:material3:<latest-version>")
+    implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    implementation("com.google.accompanist:accompanist-pager:0.34.0") // Or latest version
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.34.0") // Or latest version
+    implementation("com.google.accompanist:accompanist-pager:0.34.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.34.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
