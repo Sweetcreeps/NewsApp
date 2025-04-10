@@ -2,13 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // Apply the kapt plugin if you end up using Room
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
     namespace = "com.example.newsapp"
     compileSdk = 35
     buildFeatures {
-        buildConfig=true
+        buildConfig = true
+        compose = true
     }
     defaultConfig {
         applicationId = "com.example.newsapp"
@@ -16,12 +19,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         // Inject the API key from local.properties into BuildConfig
         buildConfigField("String", "NEWS_API_KEY", "\"${project.findProperty("NEWS_API_KEY") ?: ""}\"")
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -38,12 +39,18 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.0"
     }
 }
 
 dependencies {
+    // If you still need Room, add these dependencies:
+    implementation("androidx.room:room-runtime:2.5.0")
+    implementation("androidx.room:room-ktx:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
+    implementation("androidx.compose.material:material-icons-extended:<version>")
+
     val nav_version = "2.7.4"
     implementation(platform("androidx.compose:compose-bom:<latest-version>"))
     implementation("androidx.compose.material3:material3:<latest-version>")
